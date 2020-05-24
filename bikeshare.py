@@ -40,7 +40,7 @@ def get_filters():
         print('Which month? Please type your response as an integer (with January=1, February=2, etc.)')
         month = int(input())
         # While loop to handle invalid inputs
-        while month not in [n for n in range(1,7)]:
+        while month not in [n for n in range(1, 7)]:
             print('Please type your response as an integer (with January=1, February=2, ..., June=6)')
             month = int(input())
         day = 'all'
@@ -59,7 +59,7 @@ def get_filters():
         print('Which month? Please type your response as an integer (with January=1, February=2, etc.)')
         month = int(input())
         # While loop to handle invalid inputs
-        while month not in [n for n in range(1,7)]:
+        while month not in [n for n in range(1, 7)]:
             print('Please type your response as an integer (with January=1, February=2, ..., June=6)')
             month = int(input())
         # Choose day
@@ -196,7 +196,7 @@ def trip_duration_stats(df):
     mean_travel_time = df['Trip Duration'].mean()
     print('\nMean travel time: {} seconds'.format(mean_travel_time))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took {} seconds.".format(time.time() - start_time))
     print('-' * 40)
 
 
@@ -210,16 +210,21 @@ def user_stats(df):
     count_types = df['User Type'].value_counts()
     print('\nUser Type\t\tCount', count_types, sep='\n')
     # TO DO: Display counts of gender
-    count_gender = df['Gender'].value_counts()
-    print('\nGender\tCount', count_gender, sep='\n')
+    if 'Gender' not in df:
+        print('No gender data for this city.')
+    else:
+        count_gender = df.groupby('Gender', as_index=False).count()
+        print('\nGender\tCount', count_gender, sep='\n')
     # TO DO: Display earliest, most recent, and most common year of birth
-    birth_year = df['Birth Year'].describe()
-    common_birth_year = df['Birth Year'].mode()[0]
-    print("\nEarliest year of birth: {} ".format(birth_year[3]),
-          "Most recent year of birth: {} ".format(birth_year[7]),
-          "Most common year of birth: {} ".format(common_birth_year),
-          sep='\n')
-
+    if 'Birth Year' not in df:
+        print('No birth year data for this city.')
+    else:
+        birth_year = df['Birth Year'].describe()
+        common_birth_year = df['Birth Year'].mode()[0]
+        print("\nEarliest year of birth: {} ".format(birth_year[3]),
+              "Most recent year of birth: {} ".format(birth_year[7]),
+              "Most common year of birth: {} ".format(common_birth_year),
+              sep='\n')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
