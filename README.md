@@ -20,7 +20,9 @@ Executive file:
 bikeshare.py
 ```
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+1. [Python documentation](https://docs.python.org/3/library/)
+2. [Pandas Documentation](https://pandas.pydata.org/pandas-docs/version/0.17.0/)
+3. [Stackoverflow](https://stackoverflow.com/)
 
 ### How to run
 ```
