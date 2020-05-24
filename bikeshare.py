@@ -21,7 +21,7 @@ def get_filters():
 
     print('Hello! Let\'s explore some US bikeshare data!',
           'Would you like to see data for Chicago, New York, or Washington?', sep='\n')
-    # TO DO: get user input for city (chicago, new york city, washington).
+    # Get user input for city (chicago, new york city, washington).
     city = input().lower()
     # While loop to handle invalid inputs
     while city != 'chicago' and city != 'new york' and city != 'washington':
@@ -74,7 +74,7 @@ def get_filters():
     else:
         month = 'all'
         day = 'all'
-    # checking if user choose the right parameters
+    # Check if user choose the right parameters
 
     dict_months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 'all': 'All'}
     dict_days = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday',
@@ -102,24 +102,24 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    # loading data into a pandas DataFrame
+    # Load the data into a pandas DataFrame
     df = pd.read_csv(CITY_DATA[city])
     print("Accessing data from: ", city.title())
-    # convert the Start Time column to datetime
+    # Convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(arg=df['Start Time'], format='%Y-%m-%d %H:%M:%S')
-    # filter by month if applicable
+    # Filter by month if applicable
     if month != 'all':
         # extract month from Start Time to create new columns
         df['month'] = df['Start Time'].dt.month
 
-        # updating dataframe with month filter
+        # Update dataframe with month filter
         df = df.loc[df['month'] == month]
-    # filter by day if applicable
+    # Filter by day if applicable
     if day.lower() != 'all':
         # extract day of week from Start Time to create new columns
         df['day_of_week'] = df['Start Time'].dt.weekday_name
 
-        # updating dataframe with day filter
+        # Update dataframe with day filter
         df = df.loc[df['day_of_week'] == day]
 
     return df
@@ -131,21 +131,21 @@ def time_stats(df):
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
-    # convert the Start Time column to datetime
+    # Convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(arg=df['Start Time'], format='%Y-%m-%d %H:%M:%S')
-    # create new columns for month, day, hour
+    # Create new columns for month, day, hour
     month = df['Start Time'].dt.month
     day_name = df['Start Time'].dt.weekday_name
     hour = df['Start Time'].dt.hour
 
-    # TO DO: display the most common month
+    # Display the most common month
     most_common_month = month.mode()[0]
     print('Most common month: ', most_common_month)
-    # TO DO: display the most common day of week
+    # Display the most common day of week
     most_common_day_of_week = day_name.mode()[0]
     print('Most common day of week: ', most_common_day_of_week)
 
-    # TO DO: display the most common start hour
+    # Display the most common start hour
     common_start_hour = hour.mode()[0]
     print('Most popular start hour: ', common_start_hour)
 
@@ -159,14 +159,14 @@ def station_stats(df):
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # TO DO: display most commonly used start station
+    # Ddisplay most commonly used start station
     top_start_station = df['Start Station'].describe()
     print('Most commonly used start station: {}. Count: {}.'.format(top_start_station[2], top_start_station[3]))
-    # TO DO: display most commonly used end station
+    # Display most commonly used end station
     top_end_station = df['End Station'].value_counts().idxmax()
     count_top_end_station = df['End Station'].describe()[3]
     print('Most commonly used end station: {}. Count: {}.'.format(top_end_station, count_top_end_station))
-    # TO DO: display most frequent combination of start station and end station trip
+    # Display most frequent combination of start station and end station trip
     combination_stations = 'from ' + df['Start Station'] + ' to ' + df['End Station']
     most_popular_trip = combination_stations.describe()
     print('Most popular trip:\n{}. Count: {}.'.format(most_popular_trip[2], most_popular_trip[3]))
@@ -181,9 +181,9 @@ def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
-    # TO DO: display total travel time
+    # Display total travel time
     total_travel_time = df['Trip Duration'].sum()
-    # convert seconds to years, months, days, minutes, seconds
+    # Convert seconds to years, months, days, minutes, seconds
     sec_to_year = total_travel_time // (365 * 86400)
     sec_to_day = total_travel_time // 86400 - 365 * sec_to_year
     sec_to_hour = total_travel_time // 3600 - sec_to_day * 24 - sec_to_year * 365 * 24
@@ -192,7 +192,7 @@ def trip_duration_stats(df):
     print(
         'Years: {}, Days: {}, Hours: {}, Mins: {}, Secs: {}'.format(sec_to_year, sec_to_day, sec_to_hour, sec_to_minute,
                                                                     seconds))
-    # TO DO: display mean travel time
+    # Display mean travel time
     mean_travel_time = df['Trip Duration'].mean()
     print('\nMean travel time: {} seconds'.format(mean_travel_time))
 
@@ -206,13 +206,13 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # TO DO: Display counts of user types
+    # Display counts of user types
     count_types = df['User Type'].value_counts()
     print('\nUser Type\t\tCount', count_types, sep='\n')
-    # TO DO: Display counts of gender
+    # Display counts of gender
     count_gender = df['Gender'].value_counts()
     print('\nGender\tCount', count_gender, sep='\n')
-    # TO DO: Display earliest, most recent, and most common year of birth
+    # Display earliest, most recent, and most common year of birth
     birth_year = df['Birth Year'].describe()
     common_birth_year = df['Birth Year'].mode()[0]
     print("\nEarliest year of birth: {} ".format(birth_year[3]),
